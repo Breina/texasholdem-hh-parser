@@ -1,0 +1,30 @@
+﻿Build started 9/07/2012 13:17:09.
+     1>Project "f:\documents\visual studio 2010\Projects\Poker\Poker\Poker.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Poker.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileHandler.cpp Poker.cpp
+         Poker.cpp
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'string' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'source' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'string' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'path' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2182: 'getFile' : illegal use of type 'void'
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2078: too many initializers
+     1>f:\documents\visual studio 2010\projects\poker\poker\poker.cpp(264): error C2064: term does not evaluate to a function taking 2 arguments
+         FileHandler.cpp
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'string' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'source' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'string' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2065: 'path' : undeclared identifier
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2182: 'getFile' : illegal use of type 'void'
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1): error C2078: too many initializers
+     1>f:\documents\visual studio 2010\projects\poker\poker\filehandler.cpp(10): error C2365: 'getFile' : redefinition; previous definition was 'data variable'
+                 f:\documents\visual studio 2010\projects\poker\poker\filehandler.h(1) : see declaration of 'getFile'
+         Generating Code...
+     1>Done Building Project "f:\documents\visual studio 2010\Projects\Poker\Poker\Poker.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.63

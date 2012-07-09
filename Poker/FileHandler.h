@@ -1,0 +1,1 @@
+void getFile (string& source, string& path);
