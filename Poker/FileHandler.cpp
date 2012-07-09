@@ -15,7 +15,8 @@ class FileHandler {
 		while(!inFile.eof()) // To get you all the lines.
 		{
 			getline(inFile, s); // Saves the line in STRING.
-			source.append(s + "\n");
+			source.append(s);
+			source.append("\n");
 		}
 		inFile.close();
 	}
