@@ -1,21 +1,14 @@
-﻿Build started 9/07/2012 15:48:34.
+﻿Build started 9/07/2012 16:02:21.
      1>Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Debug\Poker.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
-         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileHandler.cpp Poker.cpp
-         Poker.cpp
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\poker.cpp(164): error C2065: 'cout' : undeclared identifier
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\poker.cpp(224): error C2065: 'cout' : undeclared identifier
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\poker.cpp(247): error C2065: 'cout' : undeclared identifier
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\poker.cpp(252): error C2039: 'cout' : is not a member of 'std'
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\poker.cpp(252): error C2065: 'cout' : undeclared identifier
+         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileHandler.cpp
          FileHandler.cpp
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\filehandler.cpp(23): fatal error C1004: unexpected end-of-file found
-         Generating Code...
+     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\filehandler.cpp(24): fatal error C1004: unexpected end-of-file found
      1>Done Building Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:00.58
+Time Elapsed 00:00:00.34

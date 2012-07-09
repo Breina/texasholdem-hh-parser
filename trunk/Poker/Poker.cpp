@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include <string>
+#include <iostream>
 #include "FileHandler.h"
 
 using namespace std;
