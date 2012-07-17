@@ -7,7 +7,8 @@
 using namespace std;
 
 class FileHandler {
-	void getFile (string& source, string& path)
+public:
+	static void getFile (string& source, string& path)
 	{
 		ifstream inFile;
 		string s;
@@ -20,4 +21,4 @@ class FileHandler {
 		}
 		inFile.close();
 	}
-}
+};
