@@ -41,19 +41,19 @@ const char RAISE= 'r';
 
 
 // Skips characters until it finds the target character, stops at the character itself
-void GameData::skipToChar (string& source, int& pos, char c)
+void GameData::SkipToChar (string& source, int& pos, char c)
 {
 	while (source[pos] != c)
 		pos++;
 }
 // Skips characters until it finds the target character, stops at the character after the target
-void GameData::skipOverChar (string& source, int& pos, char c)
+void GameData::SkipOverChar (string& source, int& pos, char c)
 {
-	skipToChar(source, pos, c);
+	SkipToChar(source, pos, c);
 	pos++;
 }
 // Copies all characters to the destination string until it finds the target character
-void GameData::writeToChar (string& source, string& dest, int& pos, char c)
+void GameData::WriteToChar (string& source, string& dest, int& pos, char c)
 {
 	string s;
 	while (source[pos] != c)
@@ -64,30 +64,30 @@ void GameData::writeToChar (string& source, string& dest, int& pos, char c)
 	}
 }
 // Customized version of writeToChar, because names can have stuff like (, ) and $
-void GameData::parsePlayerName (string& source, string& dest, int& pos)
+void GameData::ParsePlayerName (string& source, string& dest, int& pos)
 {
 	string s;
 	while (true)
 	{
-		writeToChar(source, dest, pos, '$');
+		WriteToChar(source, dest, pos, '$');
 		int p = pos;
-		skipToChar(source, p, ' ');
-		if (checkString(source, p, INCHIPS)) // If the $ was not in the player name; done
+		SkipToChar(source, p, ' ');
+		if (CheckString(source, p, INCHIPS)) // If the $ was not in the player name; done
 			break;
 		s = source[pos];
 		dest.append(s);						// Else it was part of the player name; add it and continue
 		pos++;
 	}
-	trimStringEnd(dest, 2);
+	TrimStringEnd(dest, 2);
 }
 // Skips all characters until the next line, stops at the first character after the new line
-void GameData::skipToNextLine(string& source, int& pos)
+void GameData::SkipToNextLine(string& source, int& pos)
 {
-	skipOverChar(source, pos, '\n');
+	SkipOverChar(source, pos, '\n');
 }
 
 // Skips al characters until the next game, stops at the first character of the new game
-bool GameData::skipToNextGame(string& source, int& pos)
+bool GameData::SkipToNextGame(string& source, int& pos)
 {
 	if (gameID == "75956073148")
 	{
@@ -110,17 +110,17 @@ bool GameData::skipToNextGame(string& source, int& pos)
 	return ret;
 }
 // Just jump a couple characters, either positive or negative
-void GameData::jumpPos (int& pos, int amount)
+void GameData::JumpPos (int& pos, int amount)
 {
 	pos += amount;
 }
 // Shortens a string by the set amount
-void GameData::trimStringEnd (string& s, int amount)
+void GameData::TrimStringEnd (string& s, int amount)
 {
 	s.resize(s.length() - amount);
 }
 // Checks if the next characters in the source string are identical to the match string
-bool GameData::checkString(string& source, int& pos, string match)
+bool GameData::CheckString(string& source, int& pos, string match)
 {
 	int l = match.length();
 	bool ret = false;
@@ -132,34 +132,34 @@ bool GameData::checkString(string& source, int& pos, string match)
 }
 // Reads the player name and returns the position the player position in the order in which they were first read.
 // Its intended use is to find out who's the sb, to re-order the player list, so it's only used once.
-int GameData::readPlayerName(string& source, int& pos, string players[])
+int GameData::ReadPlayerName(string& source, int& pos, string players[])
 {
 	int i;
 	for (i = 0; i < pAmount; i++)
 	{
-		if (checkString(source, pos, players[i]))
+		if (CheckString(source, pos, players[i]))
 			return i;
 	}
 	i = -1;
 	return i;
 }
 // Advances the player position, and makes sure to handle overflow
-void GameData::advancePlayerPosition(int& p)
+void GameData::AdvancePlayerPosition(int& p)
 {
 	p++;
 	if (p == pAmount) p = 0; // You can write it like p = (p + 1) % pAmount, but it will take more CPU cycles
 }
 // Re-orders the player positions to absolute positions, so sb will be first
-void GameData::setPlayerPositions(string players[], int& p, int pPosition[])
+void GameData::SetPlayerPositions(string players[], int& p, int pPosition[])
 {
 	//int p = pAmount - first;
 	for (int i = 0; i < pAmount; i++) {
 		pPosition[i] = p;
-		advancePlayerPosition(p);
+		AdvancePlayerPosition(p);
 	}
 }
 // Converts a string to pennies, so we won't have to deal with floats
-int GameData::strToPennies(string str)
+int GameData::StrToPennies(string str)
 {
 	int ret;
 	int l = str.length();
@@ -175,18 +175,18 @@ int GameData::strToPennies(string str)
 	return ret;
 }
 // Sets up the player structures, which will be used to store moves
-void GameData::setupPlayerStructs(string players[], string pCash[], int pPosition[])
+void GameData::SetupPlayerStructs(string players[], string pCash[], int pPosition[])
 {
 	int position;
 	for (int i = 0; i < pAmount; i++)
 	{
 		position = pPosition[i];
 		playerData[i].name = players[position];
-		playerData[i].money = strToPennies(pCash[position]);
+		playerData[i].money = StrToPennies(pCash[position]);
 	} // end for
 }
 // Adds an action to all players. For one player, it is stored in its structure
-void GameData::addAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter)
+void GameData::AddAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter)
 {
 	movesBuffer[movesCounter] = action;
 	movesCounter++;
@@ -195,66 +195,66 @@ void GameData::addAction(int& pPos, char action, int gameState, string& movesBuf
 		playerData[pPos].moves[gameState].append(movesBuffer);
 		playerData[pPos].moves[gameState].append("\n");
 	}
-	advancePlayerPosition(pPos);
+	AdvancePlayerPosition(pPos);
 	cout << action;
 }
 // Main function that parses through the entire source file
-void GameData::parseAll(string& source, int& pos)
+void GameData::ParseAll(string& source, int& pos)
 {
-	skipOverChar(source, pos, '#');				//
-	writeToChar(source, gameID, pos, ':');		//
+	SkipOverChar(source, pos, '#');				//
+	WriteToChar(source, gameID, pos, ':');		//
 	
 	cout << "Parsing game #" << gameID << ":";
 
-	skipOverChar(source, pos, 'm');				//
-	jumpPos(pos, 1);							//
-	writeToChar(source, limitType, pos, '(');	//
-	trimStringEnd(limitType, 1);				//
-	jumpPos(pos, 2);							//
-	writeToChar(source, sb, pos, '/');			//
-	jumpPos(pos, 2);							//
-	writeToChar(source, bb, pos, ' ');			//
-	jumpPos(pos, 3);							//
-	skipOverChar(source, pos, '\'');			//
-	skipOverChar(source, pos, '\'');			//
-	skipOverChar(source, pos, ' ');				//
-	writeToChar(source, gameType, pos, ' ');	//
-	skipToNextLine(source, pos);				//
+	SkipOverChar(source, pos, 'm');				//
+	JumpPos(pos, 1);							//
+	WriteToChar(source, limitType, pos, '(');	//
+	TrimStringEnd(limitType, 1);				//
+	JumpPos(pos, 2);							//
+	WriteToChar(source, sb, pos, '/');			//
+	JumpPos(pos, 2);							//
+	WriteToChar(source, bb, pos, ' ');			//
+	JumpPos(pos, 3);							//
+	SkipOverChar(source, pos, '\'');			//
+	SkipOverChar(source, pos, '\'');			//
+	SkipOverChar(source, pos, ' ');				//
+	WriteToChar(source, gameType, pos, ' ');	//
+	SkipToNextLine(source, pos);				//
 
 	{
 		string players	[MAXPLAYERS];			// We don't know the amount of players yet, this array is temporarily
 		string pCash	[MAXPLAYERS];
 		{
 			int i = 0;
-			while (checkString(source, pos, SEAT))
+			while (CheckString(source, pos, SEAT))
 			{
-				jumpPos(pos, 8);					// Seat 1: 
-				parsePlayerName(source, players[i], pos);
-				jumpPos(pos, 1);					// ($
-				writeToChar(source, pCash[i],
+				JumpPos(pos, 8);					// Seat 1: 
+				ParsePlayerName(source, players[i], pos);
+				JumpPos(pos, 1);					// ($
+				WriteToChar(source, pCash[i],
 					pos, ' ');						// 68.30
-				skipToNextLine(source, pos);
+				SkipToNextLine(source, pos);
 				i++;
 			} // end while
 			pAmount = i;							// Player amount
 		} // end i
-		int playerPos = readPlayerName(source, pos, players); // Relative to the order of how the players were parsed, becomes absolute after setPlayerPositions() is used
+		int playerPos = ReadPlayerName(source, pos, players); // Relative to the order of how the players were parsed, becomes absolute after setPlayerPositions() is used
 		int pPosition[MAXPLAYERS];
-		setPlayerPositions(players, playerPos, pPosition);		// Orders the players correctly, so 0 = sb, 1 = bb, ..
-		setupPlayerStructs(players, pCash, pPosition);
+		SetPlayerPositions(players, playerPos, pPosition);		// Orders the players correctly, so 0 = sb, 1 = bb, ..
+		SetupPlayerStructs(players, pCash, pPosition);
 	} // end players[], pCash[], playerPos, pPosition[]
-	skipToNextLine(source, pos);				// Small blind				TODO: Failsafe
-	skipToNextLine(source, pos);				// Big blind				TODO: Failsafe
-	skipToNextLine(source, pos);				// *** HOLE CARDS ***		TODO: Failsafe
+	SkipToNextLine(source, pos);				// Small blind				TODO: Failsafe
+	SkipToNextLine(source, pos);				// Big blind				TODO: Failsafe
+	SkipToNextLine(source, pos);				// *** HOLE CARDS ***		TODO: Failsafe
 	{
 		int playerPos = 2;						// Skipping the sb and bb, sb and bb is a rule, not a player's strategy, so no point in including them
-		while (checkString(source, pos, DEALT))
+		while (CheckString(source, pos, DEALT))
 		{
-			skipOverChar(source, pos, '[');			// Dealt to Hero [
-			writeToChar(source, playerData[playerPos].card1, pos, ' ');	// Jc
-			jumpPos(pos, 1);						//  
-			writeToChar(source, playerData[playerPos].card2, pos, ']');	// Kd
-			skipToNextLine(source, pos);
+			SkipOverChar(source, pos, '[');			// Dealt to Hero [
+			WriteToChar(source, playerData[playerPos].card1, pos, ' ');	// Jc
+			JumpPos(pos, 1);						//  
+			WriteToChar(source, playerData[playerPos].card2, pos, ']');	// Kd
+			SkipToNextLine(source, pos);
 		} // end while
 		{
 			int gameState = 0;
@@ -266,33 +266,33 @@ void GameData::parseAll(string& source, int& pos)
 				cout << endl << INDENT << "" << GAMESTATE[gameState] << ": ";
 
 				int movesCounter = 0;
-				while (!checkString(source, pos, NEXTROUND))
+				while (!CheckString(source, pos, NEXTROUND))
 				{
-					if (!checkString(source, pos, UNCALLED))		// If it's not something that we don't handle yet
+					if (!CheckString(source, pos, UNCALLED))		// If it's not something that we don't handle yet
 																	// TODO: When handling bet amounts, take this into account
 					{
-						if (!checkString(source, pos, playerData[playerPos].name))
+						if (!CheckString(source, pos, playerData[playerPos].name))
 						{
-							addAction(playerPos, SKIP , gameState, movesBuffer, movesCounter); // This player didn't make a move, because he folded earlier or something like that
+							AddAction(playerPos, SKIP , gameState, movesBuffer, movesCounter); // This player didn't make a move, because he folded earlier or something like that
 							continue;
 						}
-						jumpPos(pos, playerData[playerPos].name.length() + 2);
-						if (checkString(source, pos, FOLDS))
+						JumpPos(pos, playerData[playerPos].name.length() + 2);
+						if (CheckString(source, pos, FOLDS))
 						{
-							addAction(playerPos, FOLD , gameState, movesBuffer, movesCounter);
+							AddAction(playerPos, FOLD , gameState, movesBuffer, movesCounter);
 						}
-						else if (checkString(source, pos, CALLS) ||
-								 checkString(source, pos, CHECKS))
+						else if (CheckString(source, pos, CALLS) ||
+								 CheckString(source, pos, CHECKS))
 						{
-							addAction(playerPos, CALL , gameState, movesBuffer, movesCounter);
+							AddAction(playerPos, CALL , gameState, movesBuffer, movesCounter);
 						}
-						else if (checkString(source, pos, RAISES) ||
-								 checkString(source, pos, ADDS) ||
-								 checkString(source, pos, BETS))
+						else if (CheckString(source, pos, RAISES) ||
+								 CheckString(source, pos, ADDS) ||
+								 CheckString(source, pos, BETS))
 						{
-							addAction(playerPos, RAISE, gameState, movesBuffer, movesCounter);
+							AddAction(playerPos, RAISE, gameState, movesBuffer, movesCounter);
 						}
-						else if (checkString(source, pos, COLLECTED))
+						else if (CheckString(source, pos, COLLECTED))
 						{
 							gameState = SHOWDOWN;
 							cout << "W" << endl;
@@ -303,20 +303,20 @@ void GameData::parseAll(string& source, int& pos)
 							// Ignore action
 						}
 					}
-					skipToNextLine(source, pos);
+					SkipToNextLine(source, pos);
 				} // end while
 				gameState++;
-				skipToNextLine(source, pos);
+				SkipToNextLine(source, pos);
 				playerPos = 0;
 			} // end while
 		} // end block
 	} // end playerPos
 	cout << endl;
 
-	last = skipToNextGame(source, pos);
+	last = SkipToNextGame(source, pos);
 }
 
 GameData::GameData (string& source, int& pos)
 {
-	parseAll(source, pos);
+	ParseAll(source, pos);
 }

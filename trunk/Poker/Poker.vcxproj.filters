@@ -29,6 +29,9 @@
     <ClInclude Include="GameData.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FileParser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -41,6 +44,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
