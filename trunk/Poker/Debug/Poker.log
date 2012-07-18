@@ -1,4 +1,4 @@
-﻿Build started 18/07/2012 10:41:01.
+﻿Build started 18/07/2012 11:20:13.
      1>Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Debug\Poker.unsuccessfulbuild".
@@ -6,19 +6,11 @@
          All outputs are up-to-date.
          E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileParser.cpp
          FileParser.cpp
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(4): error C2059: syntax error : 'namespace'
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(4): error C2238: unexpected token(s) preceding ';'
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(6): error C2864: 'FileParser::MAXPLAYERS' : only static const integral data members can be initialized within a class
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(7): error C2864: 'FileParser::MAXMOVES' : only static const integral data members can be initialized within a class
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(24): error C2327: 'FileParser::MAXPLAYERS' : is not a type name, static, or enumerator
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.h(24): error C2065: 'MAXPLAYERS' : undeclared identifier
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(8): error C2059: syntax error : 'namespace'
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(8): error C2238: unexpected token(s) preceding ';'
      1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(11): error C2535: 'void FileParser::GetFile(std::string &,std::string)' : member function already defined or declared
-                 f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(9) : see declaration of 'FileParser::GetFile'
+                 f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(11) : see declaration of 'FileParser::GetFile'
      1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(25): error C2535: 'void FileParser::Init(std::string &,std::string &)' : member function already defined or declared
-                 f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(12) : see declaration of 'FileParser::Init'
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(38): fatal error C1075: end of file found before the left brace '{' at 'f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(7)' was matched
+                 f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(14) : see declaration of 'FileParser::Init'
+     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.cpp(38): fatal error C1075: end of file found before the left brace '{' at 'f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\fileparser.h(9)' was matched
      1>Done Building Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
