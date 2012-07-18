@@ -3,9 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include "FileParser.h"
-#include "GameData.h"
+//#include "GameData.h"
 
-using namespace std;
+//using namespace std;
 
 void FileParser::GetFile (string& source, string path)
 {
@@ -24,13 +24,13 @@ void FileParser::GetFile (string& source, string path)
 void FileParser::Init (string& URI, string& output)
 {
 	string source;
-	getFile(source, URI);
+	FileParser::GetFile(source, URI);
 	int pos = 0;
 	
 	bool end = false;
 	while (!end)
 	{
-		GameData gd (source, pos);
+		//GameData gd (source, pos);
 
 		end = gd.IsLastGameOfFile();
 	}
