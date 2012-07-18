@@ -4,7 +4,7 @@
 using namespace std;
 
 const int MAXPLAYERS = 10;
-const int MAXMOVES = 500;
+const int MAXMOVES = 12;
 
 struct PlayerData {
 	string name;
@@ -25,41 +25,41 @@ private:
 
 	bool last;					// If there are more games after this one
 
-	void skipToChar (string& source, int& pos, char c);
-	void skipOverChar (string& source, int& pos, char c);
-	void writeToChar (string& source, string& dest, int& pos, char c);
-	void GameData::parsePlayerName (string& source, string& dest, int& pos);
-	void skipToNextLine(string& source, int& pos);
-	bool GameData::skipToNextGame(string& source, int& pos);
-	void jumpPos (int& pos, int amount);
-	void trimStringEnd (string& s, int amount);
-	bool checkString(string& source, int& pos, string match);
-	int readPlayerName(string& source, int& pos, string players[]);
-	void advancePlayerPosition(int& p);
-	void setPlayerPositions(string players[], int& p, int pPosition[]);
-	int strToPennies(string str);
-	void setupPlayerStructs(string players[], string pCash[], int pPosition[]);
-	void addAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter);
-	void parseAll(string& source, int& pos);
+	void SkipToChar (string& source, int& pos, char c);
+	void SkipOverChar (string& source, int& pos, char c);
+	void WriteToChar (string& source, string& dest, int& pos, char c);
+	void ParsePlayerName (string& source, string& dest, int& pos);
+	void SkipToNextLine(string& source, int& pos);
+	bool SkipToNextGame(string& source, int& pos);
+	void JumpPos (int& pos, int amount);
+	void TrimStringEnd (string& s, int amount);
+	bool CheckString(string& source, int& pos, string match);
+	int  ReadPlayerName(string& source, int& pos, string players[]);
+	void AdvancePlayerPosition(int& p);
+	void SetPlayerPositions(string players[], int& p, int pPosition[]);
+	int  StrToPennies(string str);
+	void SetupPlayerStructs(string players[], string pCash[], int pPosition[]);
+	void AddAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter);
+	void ParseAll(string& source, int& pos);
 
 public:
 	GameData (string& source, int& pos);
 
-	string getGameID ()	{					return gameID						;}
-	string getSB ()	{						return sb							;}
-	string getBB () {						return bb							;}
-	string getLimitType () {				return limitType					;}
-	int	   getPlayerAmount () {				return pAmount						;}
-	string getPlayerName (int playerPos) {	return playerData[playerPos].name	;}
-	int    getPlayerCash (int playerPos) {	return playerData[playerPos].money	;}
-	string getPlayerCard1 (int playerPos) {	return playerData[playerPos].card1	;}
-	string getPlayerCard2 (int playerPos) {	return playerData[playerPos].card2	;}
+	string GetGameID ()	{					return gameID						;}
+	string GetSB ()	{						return sb							;}
+	string GetBB () {						return bb							;}
+	string GetLimitType () {				return limitType					;}
+	int	   GetPlayerAmount () {				return pAmount						;}
+	string GetPlayerName (int playerPos) {	return playerData[playerPos].name	;}
+	int    GetPlayerCash (int playerPos) {	return playerData[playerPos].money	;}
+	string GetPlayerCard1 (int playerPos) {	return playerData[playerPos].card1	;}
+	string GetPlayerCard2 (int playerPos) {	return playerData[playerPos].card2	;}
 	
-	string getPlayerMoves(int playerPos, int gameState) {
+	string GetPlayerMoves(int playerPos, int gameState) {
 		return playerData[playerPos].moves[gameState];
 	}
 
-	bool isLastGameOfFile () {				return last							;}
+	bool   IsLastGameOfFile () {			return last						;}
 };
 
 #endif
