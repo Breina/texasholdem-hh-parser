@@ -3,12 +3,12 @@
 
 using namespace std;
 
-const int MAXPLAYERS = 10;
-const int MAXMOVES = 12;
+const int MAXPLAYERS = 6;
+const int MAXMOVES = 24;
 
 struct PlayerData {
 	string name;
-	string card1, card2;
+	char card1[2], card2[2];
 	int money;		// At start of the game
 	string moves[4];
 };
@@ -32,14 +32,16 @@ private:
 	void SkipToNextLine(string& source, int& pos);
 	bool SkipToNextGame(string& source, int& pos);
 	void JumpPos (int& pos, int amount);
+	void SkipPlayerName (string& source, string& name, int& pos);
 	void TrimStringEnd (string& s, int amount);
 	bool CheckString(string& source, int& pos, string match);
 	int  ReadPlayerName(string& source, int& pos, string players[]);
-	void AdvancePlayerPosition(int& p);
-	void SetPlayerPositions(string players[], int& p, int pPosition[]);
+	void AdvancePlayerPosition(int& playerPos);
 	int  StrToPennies(string str);
-	void SetupPlayerStructs(string players[], string pCash[], int pPosition[]);
-	void AddAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter);
+	void SetupPlayerStructs(string players[], string pCash[], int& playerPos);
+	void StoreAction(string& movesBuffer, int& movesCounter, char& action);
+	void FindFirstPlayer(int& pPos, bool active[]);
+	void AddAction(int& pPos, char action, int gameState, string& movesBuffer, int& movesCounter, bool active[]);
 	void ParseAll(string& source, int& pos);
 
 public:

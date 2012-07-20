@@ -83,7 +83,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="FileParser.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="Poker.cpp" />
