@@ -24,7 +24,7 @@ void FileParser::GetFile (string& source, string path)
 FileParser::FileParser (string URI, string output)
 {
 	string source;
-	FileParser::GetFile(source, URI);
+	GetFile(source, URI);
 	int pos = 0;
 	
 	bool end = false;
