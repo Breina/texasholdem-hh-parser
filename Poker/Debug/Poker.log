@@ -1,15 +1,11 @@
-﻿Build started 20/07/2012 16:47:29.
+﻿Build started 20/07/2012 19:34:29.
      1>Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\Poker.unsuccessfulbuild".
+         Creating "Debug\Poker.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileParser.cpp GameData.cpp Poker.cpp
-         Poker.cpp
-         GameData.cpp
-     1>f:\documents\visual studio 2010\projects\poker\texasholdem-hh-parser\poker\gamedata.cpp(99): warning C4018: '<' : signed/unsigned mismatch
+         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FileParser.cpp
          FileParser.cpp
-         Generating Code...
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -31,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.46
+Time Elapsed 00:00:01.26
