@@ -23,14 +23,11 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileHandler.h">
+    <ClInclude Include="FileParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileParser.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

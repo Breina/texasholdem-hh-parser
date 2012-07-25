@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <string>
 #include <iostream>
+#include <windows.h>
 #include <fstream>
 #include "FileParser.h"
 #include "GameData.h"
@@ -21,17 +22,51 @@ void FileParser::GetFile (string& source, string path)
 	inFile.close();
 }
 
-FileParser::FileParser (string URI, string output)
+void GetFileList (string uri)
 {
-	string source;
-	GetFile(source, URI);
-	int pos = 0;
-	
-	bool end = false;
-	while (!end)
-	{
-		GameData gd (source, pos);
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	char DirSpec[MAX_PATH]; // directory specification
+ 
+	cout<<"Path: ";
+	cin.get(DirSpec, MAX_PATH);
+	cout<<"\n";
+	strncat(DirSpec, "\\*", 3);
+	hFind = FindFirstFile(DirSpec, &FindFileData);
+ 
+    if(hFind == INVALID_HANDLE_VALUE)
+    {
+		cout<<"Error: invalid path\n";
+    }
+ 
+	cout<<FindFileData.cFileName<<"\n";
+ 
+    while(FindNextFile(hFind, &FindFileData) != 0)
+    {
+		cout<<FindFileData.cFileName<<"\n";
+    }
+ 
+	FindClose(hFind);
+}
 
-		end = gd.IsLastGameOfFile();
-	}
+void FileParser::WriteToDb (GameData& gd)
+{
+
+}
+
+FileParser::FileParser (string uri, string output)
+{
+	GetFileList(uri);
+
+	//string source;
+	//GetFile(source, URI);
+	//int pos = 0;
+	
+	//bool end = false;
+	//while (!end)
+	//{
+		//GameData gd (source, pos);
+
+		//end = gd.IsLastGameOfFile();
+	//}
 }
