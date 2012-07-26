@@ -8,6 +8,8 @@
 
 using namespace std;
 
+
+
 void FileParser::GetFile (string& source, string path)
 {
 	ifstream inFile;
@@ -22,16 +24,14 @@ void FileParser::GetFile (string& source, string path)
 	inFile.close();
 }
 
-void GetFileList (string uri)
+void FileParser::GetFileList (string uri)
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = INVALID_HANDLE_VALUE;
-	char DirSpec[MAX_PATH]; // directory specification
- 
-	cout<<"Path: ";
-	cin.get(DirSpec, MAX_PATH);
-	cout<<"\n";
-	strncat(DirSpec, "\\*", 3);
+	char * DirSpec = new char [MAX_PATH]; // directory specification
+	strcpy(DirSpec, uri.c_str());
+
+	strncat(DirSpec, "*", 3);
 	hFind = FindFirstFile(DirSpec, &FindFileData);
  
     if(hFind == INVALID_HANDLE_VALUE)
@@ -39,12 +39,25 @@ void GetFileList (string uri)
 		cout<<"Error: invalid path\n";
     }
  
-	cout<<FindFileData.cFileName<<"\n";
- 
-    while(FindNextFile(hFind, &FindFileData) != 0)
+	FindNextFile(hFind, &FindFileData);	// .
+	FindNextFile(hFind, &FindFileData); // ..
+	string fileName;
+    do
     {
-		cout<<FindFileData.cFileName<<"\n";
+		fileName = FindFileData.cFileName;
+		cout<< "Reading file: " << fileName << endl;
+		string source;
+		GetFile(source, uri + fileName);
+		int pos = 0;
+		bool end = false;
+		while (!end)
+		{
+			GameData gd (source, pos);
+			end = gd.IsLastGameOfFile();
+			//delete gd;
+		}
     }
+	while(FindNextFile(hFind, &FindFileData) != 0);
  
 	FindClose(hFind);
 }
