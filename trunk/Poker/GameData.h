@@ -52,7 +52,7 @@ private:
 	bool CheckString(string& source, int& pos, string match);
 	void AdvancePlayerPosition(int& playerPos);
 	int  StrToPennies(string str);
-	void SetupPlayerStructs(string players[], string pCash[], int& playerPos);
+	void SetupPlayerStructs(string players[], string pCash[], int playerPos);
 	void CheckNextPlayer(int& pPos, int gameState, int& movesCounter, bool active[]);
 	void FindNextPlayer(int& pPos, int gameState, int& movesCounter, bool active[]);
 	void AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int amount, int pot, int toCall, int stack);

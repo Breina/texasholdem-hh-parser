@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+const string DBGFILE =	"stars_1979025_1329862332_5-10_NL-Holdem-0-part26-802429293.txt";
 
 void FileParser::GetFile (string& source, string path)
 {
@@ -25,16 +25,40 @@ void FileParser::GetFile (string& source, string path)
 }
 
 // Fixes the hh-writer's errors
+// î»¿
+// â‚¬
 void FileParser::FixFile (string& source)
 {
 	int j = 0;
-	for (int i = 0; i < source.length(); i++)
+	int i;
+	for (i = 0; i < source.length(); i++)
 	{
 		switch (source[i])
 		{
-		case ',':
-		case '»':
-			i += 2;
+		case 'î':
+			if (source[i + 1] == '»' &&
+				source[i + 2] == '¿')
+			{
+				i += 3;
+				source[j] = '$';
+			}
+			else
+			{
+				source[j] = source[i];
+			}
+			break;
+		case 'â':
+			if (source[i + 1] == '‚' &&
+				source[i + 2] == '¬')
+			{
+				i += 3;
+				source[j] = '$';
+			}
+			else
+			{
+				source[j] = source[i];
+			}
+			break;
 		case '€':
 			source[j] = '$';
 			break;
@@ -43,7 +67,6 @@ void FileParser::FixFile (string& source)
 		}
 		j++;
 	}
-	source[j] = '\0';
 	source.resize(j);
 }
 
@@ -68,20 +91,25 @@ void FileParser::GetFileList (string uri)
     do
     {
 		fileName = FindFileData.cFileName;
-		cout<< "Reading file: " << fileName << endl;
+		cout << "Reading file: " << fileName << endl;
+
+		fileName = DBGFILE;
+		//if (fileName == DBGFILE)
+		//	cout << "";
+
 		string source;
 		GetFile(source, uri + fileName);
 
-		cout<< "Fixing file...";
+		cout << "Fixing file..." << endl;
 		FixFile(source);
 
+		cout << "Parsing file..." << endl;
 		int pos = 0;
 		bool end = false;
 		while (!end)
 		{
 			GameData gd (source, pos);
 			end = gd.IsLastGameOfFile();
-			//delete gd;
 		}
     }
 	while(FindNextFile(hFind, &FindFileData) != 0);
