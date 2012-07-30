@@ -12,6 +12,7 @@ private:
 	string files[];
 
 	void GetFile (string& source, string path);
+	void FixFile (string& source);
 	void GetFileList (string uri);
 	void WriteToDb (GameData& gd);
 
