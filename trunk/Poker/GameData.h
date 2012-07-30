@@ -50,7 +50,6 @@ private:
 	void SkipString (string& source, string str, int& pos);
 	void TrimStringEnd (string& s, int amount);
 	bool CheckString(string& source, int& pos, string match);
-	int  ReadPlayerName(string& source, int& pos, string players[]);
 	void AdvancePlayerPosition(int& playerPos);
 	int  StrToPennies(string str);
 	void SetupPlayerStructs(string players[], string pCash[], int& playerPos);

@@ -24,6 +24,29 @@ void FileParser::GetFile (string& source, string path)
 	inFile.close();
 }
 
+// Fixes the hh-writer's errors
+void FileParser::FixFile (string& source)
+{
+	int j = 0;
+	for (int i = 0; i < source.length(); i++)
+	{
+		switch (source[i])
+		{
+		case ',':
+		case '»':
+			i += 2;
+		case '€':
+			source[j] = '$';
+			break;
+		default:
+			source[j] = source[i];
+		}
+		j++;
+	}
+	source[j] = '\0';
+	source.resize(j);
+}
+
 void FileParser::GetFileList (string uri)
 {
 	WIN32_FIND_DATA FindFileData;
@@ -48,6 +71,10 @@ void FileParser::GetFileList (string uri)
 		cout<< "Reading file: " << fileName << endl;
 		string source;
 		GetFile(source, uri + fileName);
+
+		cout<< "Fixing file...";
+		FixFile(source);
+
 		int pos = 0;
 		bool end = false;
 		while (!end)

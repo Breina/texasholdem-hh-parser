@@ -129,19 +129,6 @@ bool GameData::CheckString(string& source, int& pos, string match)
 	ret = true;
 	return ret;
 }
-// Reads the player name and returns the position the player position in the order in which they were first read.
-// Its intended use is to find out who's the sb, to re-order the player list, so it's only used once.
-int GameData::ReadPlayerName(string& source, int& pos, string players[])
-{
-	int i;
-	for (i = 0; i < pAmount; i++)
-	{
-		if (CheckString(source, pos, players[i]))
-			return i;
-	}
-	i = -1;
-	return i;
-}
 // Advances the player position, and makes sure to handle overflow
 void GameData::AdvancePlayerPosition(int& playerPos)
 {
@@ -250,8 +237,10 @@ void GameData::ParseAll(string& source, int& pos)
 	JumpPos(pos, 3);							
 	SkipOverChar(source, pos, '\'');
 	SkipOverChar(source, pos, '\'');
-	SkipOverChar(source, pos, ' ');	
+	JumpPos(pos, 2);
 	WriteToChar(source, gameType, pos, ' ');
+	SkipOverChar(source, pos, '#');
+	int dealer = ReadAmount(source, pos, ' ');
 	SkipToNextLine(source, pos);
 
 	{
