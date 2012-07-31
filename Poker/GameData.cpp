@@ -175,7 +175,7 @@ void GameData::CheckNextPlayer(int& pPos, int gameState, int& movesCounter, bool
 	{
 		AdvancePlayerPosition(pPos);
 		if (DEBUG) cout << " ";
-		moveData[movesCounter][gameState].move = SKIP;
+		if (valid) moveData[movesCounter][gameState].move = SKIP;
 		movesCounter++;
 	}
 }
@@ -226,6 +226,20 @@ int GameData::ReadAmount(string& source, int& pos, char c)
 	int betAmount = StrToPennies(amountStr);
 	return betAmount;
 }
+// Like ReadAmount, but with 2 possible characters
+int GameData::ReadAmount2(string& source, int& pos, char c1, char c2)
+{
+	string amountStr;
+	string s;
+	while (source[pos] != c1 && source[pos] != c2)
+	{
+		s = source[pos];
+		amountStr.append(s);
+		pos++;
+	}
+	int betAmount = StrToPennies(amountStr);
+	return betAmount;
+}
 
 // Main function that parses through the entire source file
 void GameData::ParseAll(string& source, int& pos)
@@ -253,7 +267,7 @@ void GameData::ParseAll(string& source, int& pos)
 	WriteToChar(source, gameType, pos, ' ');
 	SkipOverChar(source, pos, '#');
 
-	int dealer = atoi(source.substr(pos, 1).c_str());
+	int playerPos = atoi(source.substr(pos, 1).c_str());
 	SkipToNextLine(source, pos);
 
 	{
@@ -263,9 +277,12 @@ void GameData::ParseAll(string& source, int& pos)
 			int i = 0;
 			while (CheckString(source, pos, SEAT))
 			{
-				JumpPos(pos, 8);					//
+				JumpPos(pos, 5);
+				if (playerPos == atoi(source.substr(pos, 1).c_str()))
+					playerPos = i;
+				JumpPos(pos, 3);
 				ParsePlayerName(source, players[i], pos);
-				JumpPos(pos, 1);					//
+				JumpPos(pos, 1);
 				WriteToChar(source, pCash[i], pos, ' ');
 				SkipToNextLine(source, pos);
 				i++;
@@ -273,15 +290,15 @@ void GameData::ParseAll(string& source, int& pos)
 			pAmount = i;									// Player amount
 		} // end i
 		
-		int playerPos = (dealer == pAmount) ? 0 : dealer;
+		AdvancePlayerPosition(playerPos);
 		SetupPlayerStructs(players, pCash, playerPos);			// Orders the players correctly, so 0 = sb, 1 = bb, ..
 	} // end players, pCash
 
 	int stacks[MAXPLAYERS];
-		for each (int& i in stacks)
-			i = 0;
+	for each (int& i in stacks)
+		i = 0;
 	int pot = 0;
-	int playerPos = SMALLBLIND;	// Next expected position, searches around for other names if it doesn't match
+	playerPos = SMALLBLIND;	// Next expected position, searches around for other names if it doesn't match
 	// Handles blinds and antes
 	while (!CheckString(source, pos, NEXTROUND))
 	{
@@ -367,7 +384,7 @@ void GameData::ParseAll(string& source, int& pos)
 									 
 							{
 								SkipString(source, CALLS, pos);
-								int betAmount = ReadAmount(source, pos, '\n');
+								int betAmount = ReadAmount2(source, pos, '\n', ' ');
 								AddAction(playerPos, CALL , gameState, movesCounter, active, betAmount, pot, toCall, stacks[playerPos]);
 								stacks[playerPos] += betAmount;
 								pot += betAmount;
@@ -394,7 +411,7 @@ void GameData::ParseAll(string& source, int& pos)
 							else if	(CheckString(source, pos, BETS))				// Raises
 							{
 								SkipString(source, BETS, pos);
-								int betAmount = ReadAmount(source, pos, '\n');
+								int betAmount = ReadAmount2(source, pos, '\n', ' ');
 								AddAction(playerPos, RAISE, gameState, movesCounter, active, betAmount, pot, toCall, stacks[playerPos]);
 								stacks[playerPos] += betAmount;
 								toCall = stacks[playerPos];

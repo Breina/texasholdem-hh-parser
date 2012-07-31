@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const int MAXPLAYERS = 6;
+const int MAXPLAYERS = 9;
 const int MAXMOVES = 24;
 
 enum Move {SKIP, FOLD, CALL, CHECK, RAISE};
@@ -58,6 +58,7 @@ private:
 	void FindNextPlayer(int& pPos, int gameState, int& movesCounter, bool active[]);
 	void AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int amount, int pot, int toCall, int stack);
 	int  ReadAmount(string& source, int& pos, char c);
+	int	 ReadAmount2(string& source, int& pos, char c1, char c2);
 	void ParseAll(string& source, int& pos);
 
 public:
@@ -83,7 +84,8 @@ public:
 	int  getToCall (int n, int gameState) {	return moveData[n][gameState].toCall	;}	// Amount of money the player would need to call
 	int  getStack  (int n, int gameState) {	return moveData[n][gameState].stack		;}	// Amount of money a player has bet this game
 
-	bool   IsLastGameOfFile () {			return last								;}	// If it's the last game of this file
+	bool IsLastGameOfFile () {				return last								;}	// If it's the last game of this file
+	bool IsValid() {						return valid							;}	// If it doesn't overflow MAXMOVES
 };
 
 #endif
