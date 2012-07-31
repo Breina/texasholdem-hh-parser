@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const string DBGFILE =	"stars_1979025_1329892357_5-10_NL-Holdem-0-part26-1990154889.txt";
+const string DBGFILE =	"stars_1979092_1330018487_5-10_NL-Holdem-0-part26-117772681.txt";
 const int TOTALFILES =	1146;
 
 void FileParser::GetFile (string& source, string path)
@@ -90,6 +90,7 @@ void FileParser::GetFileList (string uri)
 	FindNextFile(hFind, &FindFileData); // ..
 	string fileName;
 	int i = 1;
+
     do
     {
 		fileName = FindFileData.cFileName;
@@ -111,6 +112,7 @@ void FileParser::GetFileList (string uri)
 		while (!end)
 		{
 			GameData gd (source, pos);
+			WriteToDb(gd);
 			end = gd.IsLastGameOfFile();
 		}
 		i++;
