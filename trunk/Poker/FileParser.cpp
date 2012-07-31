@@ -8,7 +8,8 @@
 
 using namespace std;
 
-const string DBGFILE =	"stars_1979025_1329862332_5-10_NL-Holdem-0-part26-802429293.txt";
+const string DBGFILE =	"stars_1979025_1329892357_5-10_NL-Holdem-0-part26-1990154889.txt";
+const int TOTALFILES =	1146;
 
 void FileParser::GetFile (string& source, string path)
 {
@@ -82,18 +83,19 @@ void FileParser::GetFileList (string uri)
  
     if(hFind == INVALID_HANDLE_VALUE)
     {
-		cout<<"Error: invalid path\n";
+		cout<<"ERROR: invalid path" << endl;
     }
  
 	FindNextFile(hFind, &FindFileData);	// .
 	FindNextFile(hFind, &FindFileData); // ..
 	string fileName;
+	int i = 1;
     do
     {
 		fileName = FindFileData.cFileName;
-		cout << "Reading file: " << fileName << endl;
+		cout << i << "/" << TOTALFILES << endl << "Reading file: " << fileName << endl;
 
-		fileName = DBGFILE;
+		//fileName = DBGFILE;
 		//if (fileName == DBGFILE)
 		//	cout << "";
 
@@ -111,6 +113,7 @@ void FileParser::GetFileList (string uri)
 			GameData gd (source, pos);
 			end = gd.IsLastGameOfFile();
 		}
+		i++;
     }
 	while(FindNextFile(hFind, &FindFileData) != 0);
  

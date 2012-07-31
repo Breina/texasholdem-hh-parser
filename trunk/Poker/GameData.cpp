@@ -9,8 +9,8 @@
 
 using namespace std;
 
-const bool DEBUG =		true;
-const string DBGGAME =	"75989687657";
+const bool DEBUG =		false;
+const string DBGGAME =	"0";
 
 const string INDENT =	" -";
 const string SPACE =	"   ";
@@ -189,12 +189,17 @@ void GameData::FindNextPlayer(int& pPos, int gameState, int& movesCounter, bool 
 // Adds an action to all players and moves player to next position
 void GameData::AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int betAmount, int pot, int toCall, int stack)
 {
-	moveData[movesCounter][gameState].move = action;
-	moveData[movesCounter][gameState].pot = pot;
-	moveData[movesCounter][gameState].betAmount = betAmount;
-	moveData[movesCounter][gameState].toCall = toCall;
-	moveData[movesCounter][gameState].stack = stack;
-	movesCounter++;
+	if (movesCounter >= MAXMOVES)
+			valid = false;
+	if (valid)
+	{
+		moveData[movesCounter][gameState].move = action;
+		moveData[movesCounter][gameState].pot = pot;
+		moveData[movesCounter][gameState].betAmount = betAmount;
+		moveData[movesCounter][gameState].toCall = toCall;
+		moveData[movesCounter][gameState].stack = stack;
+		movesCounter++;
+	}
 
 	if (action == FOLD)
 		active[pPos] = false;
@@ -346,7 +351,7 @@ void GameData::ParseAll(string& source, int& pos)
 				{
 					if (CheckString(source, pos, UNCALLED))
 					{
-						// We don't really need to handle this
+						gameState = END;
 					}
 					else
 					{
@@ -410,7 +415,7 @@ void GameData::ParseAll(string& source, int& pos)
 					}
 					SkipToNextLine(source, pos);
 				}
-				if (gameState != END)
+				if (gameState < SHOWDOWN)
 					gameState++;
 
 				// Positions the position to the first card they need
@@ -465,7 +470,9 @@ void GameData::ParseAll(string& source, int& pos)
 				}
 		}
 	}
-	if (DEBUG) cout << endl << endl;
+	if (DEBUG)				cout << endl;
+	if (DEBUG && !valid)	cout << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
+	if (DEBUG)				cout << endl;
 
 	last = SkipToNextGame(source, pos);
 
@@ -474,5 +481,6 @@ void GameData::ParseAll(string& source, int& pos)
 
 GameData::GameData (string& source, int& pos)
 {
+	valid = true;
 	ParseAll(source, pos);
 }
