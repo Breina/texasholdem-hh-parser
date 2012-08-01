@@ -4,7 +4,7 @@
 using namespace std;
 
 const int MAXPLAYERS = 9;
-const int MAXMOVES = 24;
+const int MAXMOVES = 40;
 
 enum Move {SKIP, FOLD, CALL, CHECK, RAISE};
 

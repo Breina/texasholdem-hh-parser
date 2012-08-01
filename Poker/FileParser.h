@@ -13,11 +13,11 @@ private:
 
 	void GetFile (string& source, string path);
 	void FixFile (string& source);
-	void GetFileList (string uri);
+	void ParseFiles (string uri);
 	void WriteToDb (GameData& gd);
 
 public:
-	FileParser (string uri, string output);
+	FileParser (string uri);
 
 };
 
