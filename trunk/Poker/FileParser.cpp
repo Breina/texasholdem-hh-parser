@@ -71,7 +71,7 @@ void FileParser::FixFile (string& source)
 	source.resize(j);
 }
 
-void FileParser::GetFileList (string uri)
+void FileParser::ParseFiles (string uri)
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = INVALID_HANDLE_VALUE;
@@ -127,19 +127,9 @@ void FileParser::WriteToDb (GameData& gd)
 
 }
 
-FileParser::FileParser (string uri, string output)
+FileParser::FileParser (string uri)
 {
-	GetFileList(uri);
+	ParseFiles(uri);
 
-	//string source;
-	//GetFile(source, URI);
-	//int pos = 0;
-	
-	//bool end = false;
-	//while (!end)
-	//{
-		//GameData gd (source, pos);
 
-		//end = gd.IsLastGameOfFile();
-	//}
 }
