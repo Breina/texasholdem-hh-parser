@@ -4,12 +4,12 @@
 #include <windows.h>
 #include <fstream>
 #include "FileParser.h"
+#include "DatabaseWriter.h"
 #include "GameData.h"
 
 using namespace std;
 
-const string DBGFILE =	"stars_1979092_1330018487_5-10_NL-Holdem-0-part26-117772681.txt";
-const int TOTALFILES =	1146;
+DatabaseWriter* dbConnection;
 
 void FileParser::GetFile (string& source, string path)
 {
@@ -89,7 +89,7 @@ void FileParser::ParseFiles (string uri)
 	FindNextFile(hFind, &FindFileData);	// .
 	FindNextFile(hFind, &FindFileData); // ..
 	string fileName;
-	int i = 1;
+	int i = 0;
 
     do
     {
@@ -103,8 +103,8 @@ void FileParser::ParseFiles (string uri)
 		string source;
 		GetFile(source, uri + fileName);
 
-		cout << "Fixing file..." << endl;
-		FixFile(source);
+		//cout << "Fixing file..." << endl;
+		//FixFile(source);
 
 		cout << "Parsing file..." << endl;
 		int pos = 0;
@@ -112,7 +112,7 @@ void FileParser::ParseFiles (string uri)
 		while (!end)
 		{
 			GameData gd (source, pos);
-			WriteToDb(gd);
+			dbConnection->StoreGame(gd);
 			end = gd.IsLastGameOfFile();
 		}
 		i++;
@@ -122,13 +122,9 @@ void FileParser::ParseFiles (string uri)
 	FindClose(hFind);
 }
 
-void FileParser::WriteToDb (GameData& gd)
-{
-
-}
-
 FileParser::FileParser (string uri)
 {
+	dbConnection = new DatabaseWriter (); 
 	ParseFiles(uri);
 
 

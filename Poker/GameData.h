@@ -6,6 +6,43 @@ using namespace std;
 const int MAXPLAYERS = 9;
 const int MAXMOVES = 40;
 
+const bool DEBUG =		false;
+const string DBGGAME =	"";
+
+const string INDENT =	" -";
+const string SPACE =	"   ";
+
+const string FOLDS =	"folds";
+const string RAISES =	"raises";
+const string CALLS =	"calls";
+const string CHECKS =	"checks";
+const string BETS =		"bets";
+const string DEALT =	"Dealt to";
+const string DEALING =	"Dealing";
+const string HAS =		"has";
+const string NEXT =		"   \n";
+const string NEXTROUND=	"--- ";
+//const string UNCALLED =	"Uncalled bet";
+//const string COLLECTED=	"ollected ";
+const string SEAT =		"Seat ";
+//const string SAID =		"aid"; // Only action where the player name isn't followed by ':', so the SkipString will jump one character too far, cutting off the 's'
+const string SB =		"posts small blind";
+const string BB =		"posts big blind";
+const string ANTE =		"posts the ante";
+//const string SHOWS =	"shows";
+
+const int SMALLBLIND =	0;
+const int BIGBLIND =	1;
+
+const string GAMESTATE[] = {"Preflop", "Flop   ", "Turn   ", "River  "}; // Used cosmeticly
+
+const int PREFLOP =	0;
+const int FLOP =	1;
+const int TURN =	2;
+const int RIVER =	3;
+const int SHOWDOWN=	4;
+const int END =		5;
+
 enum Move {SKIP, FOLD, CALL, CHECK, RAISE};
 
 struct PlayerData
@@ -13,16 +50,16 @@ struct PlayerData
 	string name;
 	string card1;				// TODO: Initilize with size 2
 	string card2;				// TODO: Initilize with size 2
-	int money;
 };
 
 struct MoveData
 {
 	Move move;
-	int pot;					// Everything that's on the table
-	int betAmount;				// Amount one puts on the table this turn
-	int toCall;					// Amount that you need to match
-	int stack;					// Amount one has bet in total
+	int pot;
+	int betAmount;
+	int toCall;
+	int currentBet;
+	int stack;
 };
 
 class GameData
@@ -52,13 +89,14 @@ private:
 	void TrimStringEnd (string& s, int amount);
 	bool CheckString(string& source, int& pos, string match);
 	void AdvancePlayerPosition(int& playerPos);
+	int  StrToInt(string str);
 	int  StrToPennies(string str);
-	void SetupPlayerStructs(string players[], string pCash[], int playerPos);
+	void SetupPlayerStructs(string players[], int playerPos);
 	void CheckNextPlayer(int& pPos, int gameState, int& movesCounter, bool active[]);
-	void FindNextPlayer(int& pPos, int gameState, int& movesCounter, bool active[]);
-	void AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int amount, int pot, int toCall, int stack);
-	int  ReadAmount(string& source, int& pos, char c);
-	int	 ReadAmount2(string& source, int& pos, char c1, char c2);
+	void FindNextPlayer(int& pPos, int& gameState, int& movesCounter, bool active[]);
+	void AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int amount, int pot, int toCall, int currentBet, int stack);
+	string ReadAmount(string& source, int& pos, char c);
+	string ReadAmount2(string& source, int& pos, char c1, char c2);
 	void ParseAll(string& source, int& pos);
 
 public:
@@ -72,8 +110,8 @@ public:
 	int	   GetPlayerAmount () {				return pAmount							;}	// Amount of players in this game
 
 	// playerPos: 0=sb, 1=bb, ...
+	PlayerData GetPlayer  (int playerPos) { return playerData[playerPos]			;}	// Player
 	string GetPlayerName  (int playerPos) {	return playerData[playerPos].name		;}	// Name of player
-	int    GetPlayerCash  (int playerPos) {	return playerData[playerPos].money		;}	// Amount of money at the start of the game
 	string GetPlayerCard1 (int playerPos) {	return playerData[playerPos].card1		;}	// First card
 	string GetPlayerCard2 (int playerPos) {	return playerData[playerPos].card2		;}	// Second card
 
@@ -82,7 +120,8 @@ public:
 	int  getPot    (int n, int gameState) {	return moveData[n][gameState].pot		;}	// Amount of money in the pot
 	int  getBet    (int n, int gameState) {	return moveData[n][gameState].betAmount	;}	// Amount of money the player moves to his stack
 	int  getToCall (int n, int gameState) {	return moveData[n][gameState].toCall	;}	// Amount of money the player would need to call
-	int  getStack  (int n, int gameState) {	return moveData[n][gameState].stack		;}	// Amount of money a player has bet this game
+	int  getCurBet (int n, int gameState) { return moveData[n][gameState].currentBet;}	// Amount of money a player has bet this game
+	int  getStack  (int n, int gameState) {	return moveData[n][gameState].stack		;}	// Amount of money a player has this game
 
 	bool IsLastGameOfFile () {				return last								;}	// If it's the last game of this file
 	bool IsValid() {						return valid							;}	// If it doesn't overflow MAXMOVES
