@@ -20,7 +20,7 @@ const string BETS =		"bets";
 const string DEALT =	"Dealt to";
 const string DEALING =	"Dealing";
 const string HAS =		"has";
-const string NEXT =		"   \n";
+const string NEXT =		"---\n";
 const string NEXTROUND=	"--- ";
 //const string UNCALLED =	"Uncalled bet";
 //const string COLLECTED=	"ollected ";
@@ -55,8 +55,8 @@ struct PlayerData
 struct MoveData
 {
 	Move move;
-	int pot;
-	int betAmount;
+	int pot;	// ALL VALUES ARE CENTS
+	int bet;
 	int toCall;
 	int currentBet;
 	int stack;
@@ -70,6 +70,8 @@ private:
 	int sb, bb;					// Small blind, big blind
 	string limitType;			// No limit, fixed limit
 	int pAmount;				// Amount of players
+	int movesLengths[4];		// Lengths of the betting rounds
+	int roundsPlayed;			// Amount of rounds played
 	PlayerData playerData[MAXPLAYERS];
 	MoveData moveData[MAXMOVES][4];
 
@@ -115,13 +117,21 @@ public:
 	string GetPlayerCard1 (int playerPos) {	return playerData[playerPos].card1		;}	// First card
 	string GetPlayerCard2 (int playerPos) {	return playerData[playerPos].card2		;}	// Second card
 
+	int  GetRoundsPlayed ()				  { return roundsPlayed						;}	// Amount of betting rounds played
+	int* GetMovesLengths ()				  { return movesLengths						;}	// Array of the lower four
+	int  GetPreflopMovesLength ()		  { return movesLengths[PREFLOP]			;}	// Length of preflop moves
+	int  GetFlopMovesLength ()			  { return movesLengths[FLOP]				;}	// Length of flop moves
+	int  GetTurnMovesLength ()			  { return movesLengths[TURN]				;}	// Length of turn moves
+	int  GetRiverMovesLength ()			  { return movesLengths[RIVER]				;}	// Length of river moves
+
 	// n: move: 0=sb, 1=bb, ... Loops around | gameState: PREFLOP, FLOP, TURN, RIVER, SHOWDOWN, END
-	Move getMove   (int n, int gameState) {	return moveData[n][gameState].move		;}	// Move: SKIP, FOLD, CALL, CHECK, RAISE
-	int  getPot    (int n, int gameState) {	return moveData[n][gameState].pot		;}	// Amount of money in the pot
-	int  getBet    (int n, int gameState) {	return moveData[n][gameState].betAmount	;}	// Amount of money the player moves to his stack
-	int  getToCall (int n, int gameState) {	return moveData[n][gameState].toCall	;}	// Amount of money the player would need to call
-	int  getCurBet (int n, int gameState) { return moveData[n][gameState].currentBet;}	// Amount of money a player has bet this game
-	int  getStack  (int n, int gameState) {	return moveData[n][gameState].stack		;}	// Amount of money a player has this game
+	MoveData GetMove(int n, int gameState){ return moveData[n][gameState]			;}	// Returns the MoveData				TODO: REMOVE
+	Move GetAction (int n, int gameState) {	return moveData[n][gameState].move		;}	// Move: SKIP, FOLD, CALL, CHECK, RAISE
+	int  GetPot    (int n, int gameState) {	return moveData[n][gameState].pot		;}	// Amount of money in the pot
+	int  GetBet    (int n, int gameState) {	return moveData[n][gameState].bet		;}	// Amount of money the player moves outward
+	int  GetToCall (int n, int gameState) {	return moveData[n][gameState].toCall	;}	// Amount of money the player would need to call
+	int  GetCurBet (int n, int gameState) { return moveData[n][gameState].currentBet;}	// Amount of money a player has bet this game
+	int  GetStack  (int n, int gameState) {	return moveData[n][gameState].stack		;}	// Amount of money a player has this game
 
 	bool IsLastGameOfFile () {				return last								;}	// If it's the last game of this file
 	bool IsValid() {						return valid							;}	// If it doesn't overflow MAXMOVES

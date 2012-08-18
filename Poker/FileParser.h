@@ -6,8 +6,9 @@
 
 using namespace std;
 
-const string DBGFILE =	"";
-const int TOTALFILES =	1018;
+const string DBGFILE =	"ong ONG hand-histories.com_165.txt";
+//const int STARTFILE = 0;
+const int TOTALFILES =	1019;
 
 class FileParser
 {

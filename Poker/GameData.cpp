@@ -148,6 +148,12 @@ void GameData::CheckNextPlayer(int& pPos, int gameState, int& movesCounter, bool
 		if (DEBUG) cout << " ";
 		if (valid) moveData[movesCounter][gameState].move = SKIP;
 		movesCounter++;
+		if (movesCounter >= MAXMOVES)
+		{
+			cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
+			valid = false;
+			return;
+		}
 	}
 }
 // Skips players that are inactive, won't increase the player position initially
@@ -167,18 +173,20 @@ void GameData::FindNextPlayer(int& pPos, int& gameState, int& movesCounter, bool
 	CheckNextPlayer(pPos, gameState, movesCounter, active);
 }
 // Adds an action to all players and moves player to next position
-void GameData::AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int betAmount, int pot, int toCall, int currentBet, int stack)
+void GameData::AddAction(int& pPos, Move action, int gameState, int& movesCounter, bool active[], int bet, int pot, int toCall, int currentBet, int stack)
 {
 	if (movesCounter >= MAXMOVES)
 	{
 		cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
+		valid = false;
 		return;
 	}
 	moveData[movesCounter][gameState].move = action;
 	moveData[movesCounter][gameState].pot = pot;
-	moveData[movesCounter][gameState].betAmount = betAmount;
+	moveData[movesCounter][gameState].bet = bet;
 	moveData[movesCounter][gameState].toCall = toCall;
 	moveData[movesCounter][gameState].currentBet = currentBet;
+	moveData[movesCounter][gameState].stack = stack;
 	movesCounter++;
 
 	if (action == FOLD)
@@ -274,6 +282,7 @@ void GameData::ParseAll(string& source, int& pos)
 			{
 				if (DEBUG)
 					cout << endl << "Button player not found, skipping game..." << endl;
+					valid = false;
 				return;
 			}
 			if (i != pAmount)
@@ -326,10 +335,6 @@ void GameData::ParseAll(string& source, int& pos)
 				AdvancePlayerPosition(playerPos);
 				break;
 			}
-			/*else
-			{
-				counter++;
-			}*/
 			AdvancePlayerPosition(playerPos);
 		}
 		if (!found)
@@ -356,8 +361,8 @@ void GameData::ParseAll(string& source, int& pos)
 		{
 			gameState = PREFLOP;
 			int movesCounter;
-			//int toCall = bb;
-			int toCall = 0;
+			int toCall = bb;
+			//int toCall = 0;
 			while (gameState < SHOWDOWN)
 			{
 				if (DEBUG) cout << endl << INDENT << "" << GAMESTATE[gameState] << ": ";
@@ -375,7 +380,7 @@ void GameData::ParseAll(string& source, int& pos)
 					CheckNextPlayer(playerPos, gameState, movesCounter, active);				// Finds the first player, if it's the first round, leaves it to 2
 				}
 
-				while (!CheckString(source, pos, NEXTROUND) || !CheckString(source, pos, NEXT))		// Do this until the next round
+				while (!CheckString(source, pos, NEXTROUND) && !CheckString(source, pos, NEXT))		// Do this until the next round
 				{
 					//if (CheckString(source, pos, UNCALLED))
 					//{
@@ -395,13 +400,13 @@ void GameData::ParseAll(string& source, int& pos)
 							{
 								SkipString(source, CALLS, pos);
 								JumpPos(pos, 1);
-								int betAmount = StrToPennies(ReadAmount2(source, pos, '\n', ' ')) - currentBets[playerPos];
+								int bet = StrToPennies(ReadAmount2(source, pos, '\n', ' ')) - currentBets[playerPos];
 
-								AddAction(playerPos, CALL , gameState, movesCounter, active, betAmount, pot, toCall, currentBets[playerPos], stacks[playerPos]);
+								AddAction(playerPos, CALL , gameState, movesCounter, active, bet, pot, toCall, currentBets[playerPos], stacks[playerPos]);
 
-								currentBets[playerPos] += betAmount;
-								stacks[playerPos] -= betAmount;
-								pot += betAmount;
+								currentBets[playerPos] += bet;
+								stacks[playerPos] -= bet;
+								pot += bet;
 
 								FindNextPlayer(playerPos, gameState, movesCounter, active);
 							}
@@ -415,14 +420,14 @@ void GameData::ParseAll(string& source, int& pos)
 								SkipString(source, RAISES, pos);
 								JumpPos(pos, 1);
 
-								int betAmount = (StrToPennies(ReadAmount(source, pos, ' ')) + toCall) - currentBets[playerPos];
+								int bet = (StrToPennies(ReadAmount(source, pos, ' ')) + toCall) - currentBets[playerPos];
 
-								AddAction(playerPos, RAISE , gameState, movesCounter, active, betAmount, pot, toCall, currentBets[playerPos], stacks[playerPos]);
+								AddAction(playerPos, RAISE , gameState, movesCounter, active, bet, pot, toCall, currentBets[playerPos], stacks[playerPos]);
 								
-								currentBets[playerPos] += betAmount;
-								stacks[playerPos] -= betAmount;
+								currentBets[playerPos] += bet;
+								stacks[playerPos] -= bet;
 								toCall = currentBets[playerPos];
-								pot += betAmount;
+								pot += bet;
 								FindNextPlayer(playerPos, gameState, movesCounter, active);
 							}
 							else if	(CheckString(source, pos, BETS))				// Raises
@@ -430,14 +435,14 @@ void GameData::ParseAll(string& source, int& pos)
 								SkipString(source, BETS, pos);
 								JumpPos(pos, 1);
 
-								int betAmount = StrToPennies(ReadAmount2(source, pos, '\n', ' ')) - currentBets[playerPos];
+								int bet = StrToPennies(ReadAmount2(source, pos, '\n', ' ')) - currentBets[playerPos];
 
-								AddAction(playerPos, RAISE, gameState, movesCounter, active, betAmount, pot, toCall, currentBets[playerPos], stacks[playerPos]);
+								AddAction(playerPos, RAISE, gameState, movesCounter, active, bet, pot, toCall, currentBets[playerPos], stacks[playerPos]);
 
-								currentBets[playerPos] += betAmount;
-								stacks[playerPos] -= betAmount;
+								currentBets[playerPos] += bet;
+								stacks[playerPos] -= bet;
 								toCall = currentBets[playerPos];
-								pot += betAmount;
+								pot += bet;
 
 								FindNextPlayer(playerPos, gameState, movesCounter, active);
 							}
@@ -460,6 +465,11 @@ void GameData::ParseAll(string& source, int& pos)
 					}
 					SkipToNextLine(source, pos);
 				}
+				if (roundsPlayed < 4)
+				{
+					movesLengths[roundsPlayed] = movesCounter;
+					roundsPlayed++;
+				}
 				if (gameState < SHOWDOWN)
 					gameState++;
 				if (gameState < SHOWDOWN)
@@ -474,10 +484,10 @@ void GameData::ParseAll(string& source, int& pos)
 						WriteToChar(source, communityCards[3], pos, ']');
 						break;
 					case FLOP:									// Could be replaced by default: to speed it up, but it's unsafe
-						WriteToChar(source, communityCards[0], pos, ' ');
-						JumpPos(pos, 1);
-						WriteToChar(source, communityCards[1], pos, ' ');
-						JumpPos(pos, 1);
+						WriteToChar(source, communityCards[0], pos, ',');
+						JumpPos(pos, 2);
+						WriteToChar(source, communityCards[1], pos, ',');
+						JumpPos(pos, 2);
 						WriteToChar(source, communityCards[2], pos, ']');
 					}
 				}
@@ -520,6 +530,7 @@ void GameData::ParseAll(string& source, int& pos)
 GameData::GameData (string& source, int& pos)
 {
 	valid = true;
+	roundsPlayed = 0;
 	ParseAll(source, pos);
 	last = SkipToNextGame(source, pos);
 	if (DEBUG)

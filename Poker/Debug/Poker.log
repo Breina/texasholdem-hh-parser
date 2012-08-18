@@ -1,7 +1,7 @@
-﻿Build started 3/08/2012 23:14:41.
+﻿Build started 18/08/2012 13:38:51.
      1>Project "F:\Documents\Visual Studio 2010\Projects\Poker\texasholdem-hh-parser\Poker\Poker.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\Poker.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\Poker.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
          E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\PostgreSQL\8.4\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\Poker.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt DatabaseWriter.cpp
@@ -28,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.03
+Time Elapsed 00:00:00.67
