@@ -15,8 +15,9 @@ const string HHPATH = "F:\\workspace\\Project Poker\\HH2\\vakenfreak_gmail_com_O
 
 int _tmain (int argc, _TCHAR* argv[])
 {
+	cout << "Program start." << endl;
 	FileParser fp (HHPATH);
-
-	system("PAUSE");
+	cout << "Program finished." << endl;
+	//system("PAUSE");
 	return EXIT_SUCCESS;
 }

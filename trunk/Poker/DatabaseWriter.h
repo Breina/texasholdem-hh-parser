@@ -11,9 +11,16 @@ using namespace std;
 class DatabaseWriter
 {
 private:
+	void InitDB ();
+	string ConvertInt (int number);
 	PGconn *ConnectDB ();
-	void InsertPlayer (PlayerData pd);
-
+	void CheckSuccess (PGresult* res, string action);
+	int  GetPlayerId (string& playerName);
+	int  InsertPlayer (string& playerName);
+	int  InsertMove (MoveData md, int playerid, PlayerData pd);
+	int  InsertMoveSequence (int* moveIDs, int length, int playerAmount);
+	void  InsertGame (GameData gd, int* moveSequences);
+	
 public:
 	void CloseConn(PGconn *conn);
 	void StoreGame(GameData gd);

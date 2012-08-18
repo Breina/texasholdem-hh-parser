@@ -80,52 +80,72 @@ void FileParser::ParseFiles (string uri)
 
 	strncat(DirSpec, "*", 3);
 	hFind = FindFirstFile(DirSpec, &FindFileData);
+	delete DirSpec;
  
     if(hFind == INVALID_HANDLE_VALUE)
     {
-		cout<<"ERROR: invalid path" << endl;
+
+		cout << "ERROR: invalid path" << endl;
     }
  
 	FindNextFile(hFind, &FindFileData);	// .
 	FindNextFile(hFind, &FindFileData); // ..
+
+	//for (int i = 0; i < STARTFILE; i++)
+	//	FindNextFile(hFind, &FindFileData);
+	int counter = 0;
+
 	string fileName;
-	int i = 0;
+	string errorFiles;
 
     do
     {
-		fileName = FindFileData.cFileName;
-		cout << i << "/" << TOTALFILES << endl << "Reading file: " << fileName << endl;
+		try {
+			fileName = FindFileData.cFileName;
+			cout << counter << "/" << TOTALFILES << endl << "Reading file: " << fileName << endl;
 
-		//fileName = DBGFILE;
-		//if (fileName == DBGFILE)
-		//	cout << "";
+			//fileName = DBGFILE;
+			//if (fileName == DBGFILE)
+			//	cout << "";
 
-		string source;
-		GetFile(source, uri + fileName);
+			string source;
+			GetFile(source, uri + fileName);
 
-		//cout << "Fixing file..." << endl;
-		//FixFile(source);
+			//cout << "Fixing file..." << endl;
+			//FixFile(source);
 
-		cout << "Parsing file..." << endl;
-		int pos = 0;
-		bool end = false;
-		while (!end)
-		{
-			GameData gd (source, pos);
-			dbConnection->StoreGame(gd);
-			end = gd.IsLastGameOfFile();
+			cout << "Parsing file..." << endl;
+			int pos = 0;
+			bool end = false;
+			while (!end)
+			{
+				GameData *gd = new GameData (source, pos);
+				if (gd->IsValid())
+					dbConnection->StoreGame(*gd);
+				end = gd->IsLastGameOfFile();
+				delete gd;
+			}
 		}
-		i++;
+		catch (std::exception& e)
+		{
+			cout << "Error reading " << fileName << ":" << endl;
+			cout << e.what();
+			errorFiles.append(fileName);
+			errorFiles.append("\n");
+			system("PAUSE");
+		}
+		counter++;
     }
-	while(FindNextFile(hFind, &FindFileData) != 0);
+	while((FindNextFile(hFind, &FindFileData) != 0)/* && (counter != TOTALFILES)*/);
  
 	FindClose(hFind);
+
+	cout << endl << "Parsing finished. Unparsed files:" << errorFiles;
 }
 
 FileParser::FileParser (string uri)
 {
 	dbConnection = new DatabaseWriter (); 
 	ParseFiles(uri);
-
-
+	delete dbConnection;
 }
