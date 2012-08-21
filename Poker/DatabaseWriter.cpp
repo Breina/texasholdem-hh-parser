@@ -91,7 +91,7 @@ void DatabaseWriter::CheckSuccess (PGresult* res, string action)
 	CloseConn(conn);	
 }
 
-int DatabaseWriter::GetPlayerId (string& playerName)
+long DatabaseWriter::GetPlayerId (string& playerName)
 {
 	std::string sSQL;
 	sSQL.append("UPDATE players SET count = count + 1 WHERE name='");
@@ -100,7 +100,7 @@ int DatabaseWriter::GetPlayerId (string& playerName)
 
 	PGresult *res = PQexec(conn, sSQL.c_str());
 	CheckSuccess(res, "Fetch playerid");
-	int ret;
+	long ret;
 	if (PQntuples(res) != 0)
 	{
 		ret = atoi(PQgetvalue(res, 0, 0));
@@ -115,7 +115,7 @@ int DatabaseWriter::GetPlayerId (string& playerName)
 	return ret;
 }
 
-int DatabaseWriter::InsertPlayer (string& playerName)
+long DatabaseWriter::InsertPlayer (string& playerName)
 {
 	std::string sSQL;
 	sSQL.append("INSERT INTO players (name, count) VALUES ('");
@@ -125,14 +125,14 @@ int DatabaseWriter::InsertPlayer (string& playerName)
 	PGresult *res = PQexec(conn, sSQL.c_str());
 	CheckSuccess(res, "Insert player record");
 
-	int ret = atoi(PQgetvalue(res, 0, 0));
+	long ret = atoi(PQgetvalue(res, 0, 0));
 
 	PQclear(res);
 
 	return ret;
 }
 
-int DatabaseWriter::InsertMove (MoveData md, int playerid, PlayerData pd)
+long DatabaseWriter::InsertMove (MoveData md, long playerid, PlayerData pd)
 {
 	int action;
 	switch (md.move)
@@ -184,21 +184,21 @@ int DatabaseWriter::InsertMove (MoveData md, int playerid, PlayerData pd)
 	PGresult *res = PQexec(conn, sSQL.c_str());
 	CheckSuccess(res, "Insert move record");
 
-	int ret = atoi(PQgetvalue(res, 0, 0));
+	long ret = atoi(PQgetvalue(res, 0, 0));
 
 	PQclear(res);
 
 	return ret;
 }
 
-int DatabaseWriter::InsertMoveSequence (int* moveIDs, int length, int playerAmount)
+long DatabaseWriter::InsertMoveSequence (long* moveIDs, int length, int playerAmount)
 {
 	int lap = 0;
 	int playerPos = 0;
 	int dblap = 0;
 	int dbpos = 0;
 
-	int move = 0;
+	long move = 0;
 	bool finished = false;
 
 	std::string sSQL;
@@ -239,14 +239,14 @@ int DatabaseWriter::InsertMoveSequence (int* moveIDs, int length, int playerAmou
 	PGresult *res = PQexec(conn, sSQL.c_str());
 	CheckSuccess(res, "Insert moveSequence record");
 
-	int ret = atoi(PQgetvalue(res, 0, 0));
+	long ret = atoi(PQgetvalue(res, 0, 0));
 
 	PQclear(res);
 
 	return ret;
 }
 
-void DatabaseWriter::InsertGame (GameData gd, int* moveSequences)
+void DatabaseWriter::InsertGame (GameData gd, long* moveSequences)
 {
 	std::string sSQL;
 	sSQL.append("INSERT INTO games (gameid, sb, bb, limittype, gametype, playeramount, preflop, flop, turn, river) VALUES ('");
@@ -285,7 +285,7 @@ void DatabaseWriter::StoreGame (GameData gd)
 		system("PAUSE");
 
 	// Handles the players
-	int playerIDs[MAXPLAYERS];
+	long playerIDs[MAXPLAYERS];
 	for (int i = 0; i < gd.GetPlayerAmount(); i++)
 	{
 		string playerName = gd.GetPlayer(i).name;
@@ -293,14 +293,14 @@ void DatabaseWriter::StoreGame (GameData gd)
 	}
 
 	// Handles the betting rounds
-	int moveSequences[4];
-	for each (int& i in moveSequences)
+	long moveSequences[4];
+	for each (long& i in moveSequences)
 		i = 0;
 	int l = gd.GetRoundsPlayed();
 	for (int gameState = PREFLOP; gameState < l; gameState++)
 	{
 		// Handles the moves
-		int moveIDs[MAXMOVES];
+		long moveIDs[MAXMOVES];
 		int length = gd.GetMovesLengths()[gameState];
 		if (length > MAXMOVES)
 			cout << "";

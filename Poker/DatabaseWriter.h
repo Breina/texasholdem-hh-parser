@@ -15,11 +15,11 @@ private:
 	string ConvertInt (int number);
 	PGconn *ConnectDB ();
 	void CheckSuccess (PGresult* res, string action);
-	int  GetPlayerId (string& playerName);
-	int  InsertPlayer (string& playerName);
-	int  InsertMove (MoveData md, int playerid, PlayerData pd);
-	int  InsertMoveSequence (int* moveIDs, int length, int playerAmount);
-	void  InsertGame (GameData gd, int* moveSequences);
+	long  GetPlayerId (string& playerName);
+	long  InsertPlayer (string& playerName);
+	long  InsertMove (MoveData md, long playerid, PlayerData pd);
+	long  InsertMoveSequence (long* moveIDs, int length, int playerAmount);
+	void  InsertGame (GameData gd, long* moveSequences);
 	
 public:
 	void CloseConn(PGconn *conn);
