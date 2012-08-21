@@ -109,6 +109,9 @@ int DatabaseWriter::GetPlayerId (string& playerName)
 	{
 		ret = InsertPlayer(playerName);
 	}
+
+	PQclear(res); // THIS FUCKING PIECE OF SHIT CODE WAS MISSING, CAUSING A MEMORY LEAK HOLDING THIS PROJECT BACK FOR WEEKS. FUKA-U CODE! FUKA YU WELL!!
+
 	return ret;
 }
 
