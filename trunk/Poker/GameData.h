@@ -78,7 +78,7 @@ private:
 	string communityCards[5];	// TODO: Initilize with size 2
 
 	bool last;					// If there are more games after this one
-	bool valid = true;			// If it didn't exceed MAXMOVES
+	bool valid;			// If it didn't exceed MAXMOVES
 
 	void SkipToChar (string& source, int& pos, char c);
 	void SkipOverChar (string& source, int& pos, char c);
