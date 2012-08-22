@@ -6,8 +6,8 @@ using namespace std;
 const int MAXPLAYERS = 9;
 const int MAXMOVES = 40;
 
-const bool DEBUG =		false;
-const string DBGGAME =	"";
+const bool DEBUG =		true;
+const string DBGGAME =	"R5-252659946-146";
 
 const string INDENT =	" -";
 const string SPACE =	"   ";
@@ -78,7 +78,7 @@ private:
 	string communityCards[5];	// TODO: Initilize with size 2
 
 	bool last;					// If there are more games after this one
-	bool valid;					// If it didn't exceed MAXMOVES
+	bool valid = true;			// If it didn't exceed MAXMOVES
 
 	void SkipToChar (string& source, int& pos, char c);
 	void SkipOverChar (string& source, int& pos, char c);

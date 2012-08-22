@@ -302,8 +302,6 @@ void DatabaseWriter::StoreGame (GameData gd)
 		// Handles the moves
 		long moveIDs[MAXMOVES];
 		int length = gd.GetMovesLengths()[gameState];
-		if (length > MAXMOVES)
-			cout << "";
 		int playerAmount = gd.GetPlayerAmount();
 		MoveData md;
 		for (int i = 0; i < length; i++)
