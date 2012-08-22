@@ -523,7 +523,6 @@ void GameData::ParseAll(string& source, int& pos)
 	if (DEBUG)
 		cout << endl;
 
-	valid = true;
 	//system("PAUSE");
 }
 
