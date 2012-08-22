@@ -91,8 +91,8 @@ void FileParser::ParseFiles (string uri)
 	FindNextFile(hFind, &FindFileData);	// .
 	FindNextFile(hFind, &FindFileData); // ..
 
-	for (int i = 0; i < STARTFILE; i++)
-		FindNextFile(hFind, &FindFileData);
+	//for (int i = 0; i < STARTFILE; i++)
+	//	FindNextFile(hFind, &FindFileData);
 	int counter = 0;
 
 	string fileName;
@@ -102,7 +102,7 @@ void FileParser::ParseFiles (string uri)
     {
 		try {
 			fileName = FindFileData.cFileName;
-			cout << counter + STARTFILE << "/" << TOTALFILES + STARTFILE<< endl << "Reading file: " << fileName << endl;
+			cout << counter << "/" << TOTALFILES << endl << "Reading file: " << fileName << endl;
 
 			//fileName = DBGFILE;
 			//if (fileName == DBGFILE)

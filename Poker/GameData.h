@@ -6,8 +6,8 @@ using namespace std;
 const int MAXPLAYERS = 9;
 const int MAXMOVES = 40;
 
-const bool DEBUG =		true;
-const string DBGGAME =	"R5-252659946-146";
+const bool DEBUG =		false;
+const string DBGGAME =	"";
 
 const string INDENT =	" -";
 const string SPACE =	"   ";
