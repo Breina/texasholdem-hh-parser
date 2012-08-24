@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const string DBGFILE =	"ong ONG hand-histories.com_165.txt";
+const string DBGFILE =	"";
 //const int STARTFILE = 0;
 const int TOTALFILES =	1019;
 
@@ -21,7 +21,7 @@ private:
 	void ParseFiles (string uri);
 
 public:
-	FileParser (string uri);
+	FileParser (string uri, bool truncate);
 
 };
 
