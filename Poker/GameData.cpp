@@ -150,7 +150,7 @@ void GameData::CheckNextPlayer(int& pPos, int gameState, int& movesCounter, bool
 		movesCounter++;
 		if (movesCounter >= MAXMOVES)
 		{
-			cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
+			//cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
 			valid = false;
 			return;
 		}
@@ -177,7 +177,7 @@ void GameData::AddAction(int& pPos, Move action, int gameState, int& movesCounte
 {
 	if (movesCounter >= MAXMOVES)
 	{
-		cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
+		//cout << endl << "Game was ignored as it exceeded MAXMOVES: " << MAXMOVES << endl;
 		valid = false;
 		return;
 	}
@@ -282,7 +282,7 @@ void GameData::ParseAll(string& source, int& pos)
 			{
 				if (DEBUG)
 					cout << endl << "Button player not found, skipping game..." << endl;
-					valid = false;
+				valid = false;
 				return;
 			}
 			if (i != pAmount)
@@ -339,8 +339,8 @@ void GameData::ParseAll(string& source, int& pos)
 		}
 		if (!found)
 		{
-			if (DEBUG)
-				cout << endl << "Unknown player name. Skipping game..." << endl;
+			//if (DEBUG)
+				//cout << endl << "Unknown player name. Skipping game..." << endl;
 			return;
 		}
 	}
@@ -458,8 +458,8 @@ void GameData::ParseAll(string& source, int& pos)
 						}
 						else
 						{
-							if (DEBUG)
-								cout << endl << "Didn't find expected player, skipping game..." << endl;
+							//if (DEBUG)
+								//cout << endl << "Didn't find expected player, skipping game..." << endl;
 							return;
 						}
 					}
