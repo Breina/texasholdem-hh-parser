@@ -7,8 +7,7 @@
 using namespace std;
 
 const string DBGFILE =	"";
-//const int STARTFILE = 0;
-const int TOTALFILES =	1019;
+const int UPDATEDELAY = 30;
 
 class FileParser
 {
