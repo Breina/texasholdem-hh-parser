@@ -117,6 +117,7 @@ void FileParser::ParseFiles (string uri)
 
     do
     {
+		int t;
 		try {
 			fileName = FindFileData.cFileName;
 			//cout << counter << "/" << totalFiles << endl << "Reading file: " << fileName << endl;
@@ -126,7 +127,7 @@ void FileParser::ParseFiles (string uri)
 			//	cout << "";
 
 			string source;
-			int t = clock();
+			t = clock();
 			GetFile(source, uri + fileName);
 			readTime += clock() - t;
 
@@ -138,22 +139,23 @@ void FileParser::ParseFiles (string uri)
 			bool end = false;
 			while (!end)
 			{
-				int t = clock();
+				t = clock();
 				GameData *gd = new GameData (source, pos);
 				parseTime += clock() - t;
 
 				if (gd->IsValid())
 				{
-					int t = clock();
+					t = clock();
 					dbConnection->StoreGame(*gd);
 					dbTime += clock() - t;
 				}
 
 				gamesAmount++;
 
-				if (clock() - lastDraw > 50)
+				if (clock() - lastDraw > UPDATEDELAY)
 				{
 					int totalTime = readTime + parseTime + dbTime;
+					totalTime = ( totalTime == 0 ) ? 1 : totalTime;
 					int gps = gamesAmount / ((clock() - startTime) / 1000.0);
 					printf("File: %i/%i GPS: %i R(%i%%) P(%i%%) DB(%i%%) Est.: %im Game: %s ", counter, totalFiles, gps, 
 						100 * readTime  / totalTime, 100 * parseTime / totalTime, 100 * dbTime / totalTime,
@@ -186,13 +188,19 @@ void FileParser::ParseFiles (string uri)
 
 FileParser::FileParser (string uri, bool truncate)
 {
-	dbConnection = new DatabaseWriter ();
+	dbConnection = new DatabaseWriter (true);
 	if (truncate)
 	{
 		std::cout << "Truncating database..." << endl;
 		dbConnection->InitDB();
 	}
-	std::cout << "Parsing files..." << endl;
+	else
+	{
+		std::cout << "Caching players..." << endl;
+		dbConnection->PopulatePlayerList();
+	}
+		
+	std::cout << "Parsing files:" << endl;
 	ParseFiles(uri);
 	delete dbConnection;
 }
